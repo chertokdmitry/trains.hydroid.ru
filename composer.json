@@ -1,0 +1,12 @@
+{
+    "name": "dmitry/library.loc",
+    "authors": [
+        {
+            "name": "Dmitry Chertok",
+            "email": "chertokdmitry@yandex.ru"
+        }
+    ],
+    "require": {
+        "laravel/installer": "^2.0"
+    }
+}
