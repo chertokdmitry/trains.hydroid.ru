@@ -7,10 +7,13 @@ use App\Courier;
 
 class CouriersController extends Controller
 {
+    public $navStatus;
+
     public function index()
     {
-        $data = Courier::all();
-        $view = view('couriers', ['items' => $data])->render();
+        $this->navStatus = ['', '', 'active', '', ''];
+        $data = Courier::paginate(10);
+        $view = view('couriers', ['items' => $data, 'navStatus' => $this->navStatus])->render();
         return (new Response($view));
     }
 }

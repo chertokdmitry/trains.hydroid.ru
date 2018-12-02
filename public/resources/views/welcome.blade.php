@@ -1,39 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <div>
-        <div>
-            <h3>Показать расписание</h3>
-        </div>
-        <div>
-            <form action="/" method="post">
-                @csrf
-                <div class="form-group">
-                    <label for="date1">С </label>
-                    <input type="date"
-                           class="form-control"
-                           id="date1"
-                           name="date1"
-                           placeholder=" date1">
-                    <br>
-                    <br>
-                </div>
-                <div class="form-group">
-                    <label for="date2">по </label>
-                    <input type="date"
-                           class="form-control"
-                           id="date2"
-                           name="date2"
-                           placeholder=" date2">
-                    <br>
-                    <br>
-                </div>
-                <input type="hidden"
-                       name="hidden_id"
-                       value="0">
-                <button type="submit"
-                        class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
+    <main role="main" class="inner cover"  style="margin-top:200px;">
+        <h1 class="h3 mb-3 font-weight-normal">Расписание</h1>
+        <form action="/" method="post">
+            @csrf
+            <input type="date"
+                   class="form-control"
+                   id="date1"
+                   name="date1"
+                   value="2018-11-01"
+                   min="2018-11-01"
+                   max="2018-11-30" required autofocus>
+        <label for="date1" class="sr-only">Начальная дата</label>
+            <input type="date"
+                   class="form-control"
+                   id="date2"
+                   name="date2"
+                   value="2018-11-30"
+                   min="2018-11-01"
+                   max="2018-11-30">
+            <label for="date2" class="sr-only">Конечная дата</label>
+            <input type="hidden"
+                   name="hidden_id"
+                   value="0">
+            <br><br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Показать</button>
+    </form>
+    </main>
 @endsection

@@ -7,10 +7,13 @@ use App\Region;
 
 class RegionsController extends Controller
 {
+    public $navStatus;
+
     public function index()
     {
+        $this->navStatus = ['', '', '', 'active', ''];
         $data = Region::all();
-        $view = view('regions', ['items' => $data])->render();
+        $view = view('regions', ['items' => $data, 'navStatus' => $this->navStatus])->render();
         return (new Response($view));
     }
 }

@@ -9,23 +9,27 @@
             <form action="/newroute" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="couriers">Курьер</label>
-                    <select class="form-control"
-                                name="couriers"
-                                id="couriers">
-                        <option value="1">Андрей Петров </option>
-                        <option value="10">Владимир Волков </option>
+                    <label for="couriers">Курьеры</label>
+                    <select id="couriers" name="couriers" class="form-control">
+                        @foreach ($couriers as $courier)
+                                <option value="{{ $courier['id'] }}">
+                                    {{ $courier['last'] }}
+                                    {{ $courier['first'] }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <br>
-                <br>
                 <div class="form-group">
-                    <label for="regions">Регион</label>
-                    <select class="form-control"
-                                name="regions"
-                                id="regions">
-                        <option value="1">Санкт-Петербург </option>
-                        <option value="10">Астрахань </option>
+                    <label for="defaultRegion">Отправление</label>
+                    <input type="text" id="defaultRegion" class="form-control" placeholder="Москва" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="regions">Пункт назначения</label>
+                    <select id="regions" name="regions" class="form-control">
+                        @foreach ($regions as $region)
+                            @if ($region['id'] != 0)
+                            <option value="{{ $region['id'] }}">{{ $region['name'] }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
@@ -37,12 +41,12 @@
                 </div>
                 <div class="form-group">
                     <label for="time">Время: </label>
-                    <input id="time" type="time" name="time">
+                    <input id="time" type="time" name="time" class="form-control">
                 </div>
                 <input type="hidden"
                        name="hidden_id"
                        value=" ">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Добавить</button>
             </form>
         </div>
     </div>

@@ -11,8 +11,8 @@
                 <tr>
                     <th>id</th>
                     <th>Дата</th>
-                    <th>Курьер(id)</th>
-                    <th>Город(id)</th>
+                    <th>Курьер</th>
+                    <th>Направление</th>
                     <th>В пути(ч)</th>
                 </tr>
                 @foreach ($items as $item)
@@ -24,15 +24,15 @@
                             {{ $item->date }}
                         </td>
                         <td>
-                            {{ $item->courier_id }}
+                            {{ $item->courier->last }} {{ $item->courier->first }}
                         </td>
                         <td>
-                            {{ $item->region_id }}
+                            {{ $item->region->name }}
                         </td>
                         <td>
                             {{ $item->interval }}
                         </td>
-                    </tr> </p>
+                    </tr>
                 @endforeach
             </table>
         </div>

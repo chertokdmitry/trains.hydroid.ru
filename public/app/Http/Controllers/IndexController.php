@@ -10,11 +10,18 @@ use Rakit\Validation\Validator;
 class IndexController extends Controller
 {
     public $html;
+    public $navStatus;
+
+    public function __construct()
+    {
+        $this->navStatus = ['active', '', '', '', ''];
+    }
 
     public function index()
     {
         $data = [];
-        $view = view('welcome', ['items' => $data])->render();
+        $view = view('welcome', ['items' => $data, 'navStatus' => $this->navStatus])->render();
+
         return (new Response($view));
     }
 
@@ -32,11 +39,11 @@ class IndexController extends Controller
           ['date', '<=', $data['date2']]
         ])->get();
 
-        $view = view('schedule', ['items' => $schedule])->render();
+        $view = view('schedule', ['items' => $schedule, 'navStatus' => $this->navStatus])->render();
         return (new Response($view));
 
         } else {
-            $view = view('result', ['html' => $this->html])->render();
+            $view = view('result', ['html' => $this->html, 'navStatus' => $this->navStatus])->render();
             return (new Response($view));
         }
     }
