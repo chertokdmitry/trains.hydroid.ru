@@ -35,7 +35,6 @@
                     </tr>
                 @endforeach
             </table>
-            {{ $items->links() }}
         </div>
     </div>
 @endsection

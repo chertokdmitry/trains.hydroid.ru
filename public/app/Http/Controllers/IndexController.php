@@ -39,7 +39,7 @@ class IndexController extends Controller
           ['date', '<=', $data['date2']]
         ])->get();
 
-        $view = view('schedule', ['items' => $schedule, 'navStatus' => $this->navStatus])->render();
+        $view = view('search', ['items' => $schedule, 'navStatus' => $this->navStatus])->render();
         return (new Response($view));
 
         } else {
@@ -64,6 +64,7 @@ class IndexController extends Controller
 
             return false;
         } else {
+
             return true;
         }
     }

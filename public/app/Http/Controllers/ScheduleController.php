@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Schedule;
@@ -7,6 +9,8 @@ use App\Region;
 use App\Courier;
 use DateTime;
 use DateInterval;
+use Illuminate\Support\Facades\Cache;
+
 class ScheduleController extends Controller
 {
     public $data;
@@ -15,7 +19,14 @@ class ScheduleController extends Controller
     public function index()
     {
         $this->navStatus = ['', '', '', '', 'active'];
-        $data = Schedule::paginate(10);
+
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $key = 'schedule-page-' . $currentPage;
+
+        $data = Cache::remember($key, 60, function () {
+            return Schedule::paginate(10);
+        });
+
         $view = view('schedule', ['items' => $data, 'navStatus' => $this->navStatus])->render();
         return (new Response($view));
     }
