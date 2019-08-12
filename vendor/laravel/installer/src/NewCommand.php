@@ -25,10 +25,10 @@ class NewCommand extends Command
     {
         $this
             ->setName('new')
-            ->setDescription('Create a new Laravel application.')
+            ->setDescription('Create a new Laravel application')
             ->addArgument('name', InputArgument::OPTIONAL)
             ->addOption('dev', null, InputOption::VALUE_NONE, 'Installs the latest "development" release')
-            ->addOption('force', null, InputOption::VALUE_NONE, 'Forces install even if the directory already exists');
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Forces install even if the directory already exists');
     }
 
     /**
@@ -40,7 +40,7 @@ class NewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (! class_exists('ZipArchive')) {
+        if (! extension_loaded('zip')) {
             throw new RuntimeException('The Zip PHP extension is not installed. Please install it and try again.');
         }
 
@@ -52,9 +52,7 @@ class NewCommand extends Command
 
         $output->writeln('<info>Crafting application...</info>');
 
-        $version = $this->getVersion($input);
-
-        $this->download($zipFile = $this->makeFilename(), $version)
+        $this->download($zipFile = $this->makeFilename(), $this->getVersion($input))
              ->extract($zipFile, $directory)
              ->prepareWritableDirectories($directory, $output)
              ->cleanUp($zipFile);
@@ -71,6 +69,12 @@ class NewCommand extends Command
         if ($input->getOption('no-ansi')) {
             $commands = array_map(function ($value) {
                 return $value.' --no-ansi';
+            }, $commands);
+        }
+
+        if ($input->getOption('quiet')) {
+            $commands = array_map(function ($value) {
+                return $value.' --quiet';
             }, $commands);
         }
 
@@ -182,8 +186,8 @@ class NewCommand extends Command
         $filesystem = new Filesystem;
 
         try {
-            $filesystem->chmod($appDirectory.DIRECTORY_SEPARATOR."bootstrap/cache", 0755, 0000, true);
-            $filesystem->chmod($appDirectory.DIRECTORY_SEPARATOR."storage", 0755, 0000, true);
+            $filesystem->chmod($appDirectory.DIRECTORY_SEPARATOR.'bootstrap/cache', 0755, 0000, true);
+            $filesystem->chmod($appDirectory.DIRECTORY_SEPARATOR.'storage', 0755, 0000, true);
         } catch (IOExceptionInterface $e) {
             $output->writeln('<comment>You should verify that the "storage" and "bootstrap/cache" directories are writable.</comment>');
         }
@@ -213,8 +217,10 @@ class NewCommand extends Command
      */
     protected function findComposer()
     {
-        if (file_exists(getcwd().'/composer.phar')) {
-            return '"'.PHP_BINARY.'" composer.phar';
+        $composerPath = getcwd().'/composer.phar';
+
+        if (file_exists($composerPath)) {
+            return '"'.PHP_BINARY.'" '.$composerPath;
         }
 
         return 'composer';

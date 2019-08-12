@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Schedule\Schedule;
@@ -12,7 +11,6 @@ use App\Models\Transport\Bus;
 use DateTime;
 use DateInterval;
 use Illuminate\Support\Facades\Cache;
-
 
 class ScheduleController extends Controller
 {
@@ -39,10 +37,10 @@ class ScheduleController extends Controller
             'regions' => $regions])->render();
         return (new Response($view));
     }
+
     public function reverse()
     {
-        $this->data['date'] = $this->shiftTime($this->data['date'],
-            $this->data['interval']);
+        $this->data['date'] = $this->shiftTime($this->data['date'], $this->data['interval']);
         $this->data['regions'] = 0;
         return $this->addSchedule();
     }

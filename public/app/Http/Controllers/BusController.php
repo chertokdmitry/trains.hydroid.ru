@@ -1,15 +1,12 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Transport\Bus;
 use App\Models\Validator\BusValidator;
-
 
 class BusController extends Controller
 {
@@ -29,7 +26,6 @@ class BusController extends Controller
             $isAvailable = $bus->isAvailable(new BusValidator(), $post['date']);
             echo $isAvailable;
         }
-
     }
 
     public function formcheck()

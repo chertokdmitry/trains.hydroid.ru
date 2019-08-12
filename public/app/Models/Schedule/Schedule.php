@@ -3,12 +3,10 @@
 
 namespace App\Models\Schedule;
 
-
 use App\Models\Region;
 use DateInterval;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
-
 
 class Schedule extends Model
 {
@@ -83,7 +81,7 @@ class Schedule extends Model
             ->get();
 
         if (count($query) != 0) {
-            foreach($query as $item){
+            foreach ($query as $item) {
                 $queryDate = $item->date;
             }
             $hoursToAdd = self::getHours($date);
@@ -104,8 +102,7 @@ class Schedule extends Model
         $hours = self::getHours($data['date']);
         $todayInterval = 24 - $hours;
         $tommorrowInterval = $interval - $todayInterval;
-        $tomorrow = self::shiftTime($data['date'],
-            $todayInterval);
+        $tomorrow = self::shiftTime($data['date'], $todayInterval);
         $tommorrowDatetime = $tomorrow;
 
         return self::checkRoute($tommorrowDatetime, $tommorrowInterval, $data['region_id'], $data);

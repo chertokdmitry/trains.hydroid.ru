@@ -24,7 +24,7 @@
                             {{ $item->date }}
                         </td>
                         <td>
-                            {{ $item->bus->model }} {{ $item->bus->register }}
+                            {{ $item->transport->model }} {{ $item->transport->register }}
                         </td>
                         <td>
                             {{ $item->region->name }}
