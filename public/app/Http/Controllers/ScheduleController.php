@@ -1,44 +1,42 @@
 <?php
 
+
 namespace App\Http\Controllers;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Schedule;
-use App\Region;
-use App\Courier;
+use App\Models\Schedule\Schedule;
+use App\Models\Region;
+use App\Models\Transport\Bus;
 use DateTime;
 use DateInterval;
 use Illuminate\Support\Facades\Cache;
 
+
 class ScheduleController extends Controller
 {
     public $data;
-    public $navStatus;
 
     public function index()
     {
-        $this->navStatus = ['', '', '', '', 'active'];
-
         $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $key = 'schedule-page-' . $currentPage;
 
-        $data = Cache::remember($key, 60, function () {
+        $data = Cache::remember($key, 1, function () {
             return Schedule::paginate(10);
         });
 
-        $view = view('schedule', ['items' => $data, 'navStatus' => $this->navStatus])->render();
+        $view = view('schedule', ['items' => $data])->render();
         return (new Response($view));
     }
     public function add()
     {
-        $this->navStatus = ['', 'active', '', '', ''];
-        $couriers = Courier::all();
+        $buses = Bus::all();
         $regions = Region::all();
 
-        $view = view('newschedule', ['couriers' => $couriers,
-            'regions' => $regions,
-            'navStatus' => $this->navStatus])->render();
+        $view = view('newschedule', ['buses' => $buses,
+            'regions' => $regions])->render();
         return (new Response($view));
     }
     public function reverse()
@@ -59,9 +57,8 @@ class ScheduleController extends Controller
         $toDb = array_merge($this->addSchedule(), $this->reverse());
         foreach ($toDb as $route) {
             if ($route[0] == 'false') {
-                $html = 'Курьер занят!';
-                $this->navStatus = ['', 'active', '', '', ''];
-                $view = view('result', ['html' => $html, 'navStatus' => $this->navStatus])->render();
+                $html = 'Транспорт занят!';
+                $view = view('result', ['html' => $html])->render();
 
                 return (new Response($view));
             }
@@ -70,8 +67,7 @@ class ScheduleController extends Controller
             $this->addRoute($route[1], $route[2], $route[3]);
         }
         $html = 'Данные записаны!';
-        $this->navStatus = ['', 'active', '', '', ''];
-        $view = view('result', ['html' => $html, 'navStatus' => $this->navStatus])->render();
+        $view = view('result', ['html' => $html])->render();
 
         return (new Response($view));
     }

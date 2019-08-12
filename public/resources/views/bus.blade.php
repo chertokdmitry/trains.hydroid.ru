@@ -3,23 +3,27 @@
 @section('content')
     <div>
         <div>
-            <h3>Курьеры</h3>
+            <h3>Автобусы</h3>
         </div>
         <div>
             <table class="table">
                 <tr>
                     <th>id</th>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
+                    <th>Марка</th>
+                    <th>Номер</th>
+                    <th>Вместимость</th>
                 </tr>
                 @foreach ($items as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>
-                            {{ $item->first }}
+                            {{ $item->model }}
                         </td>
                         <td>
-                            {{ $item->last }}
+                            {{ $item->register }}
+                        </td>
+                        <td>
+
                         </td>
                     </tr>
                 @endforeach

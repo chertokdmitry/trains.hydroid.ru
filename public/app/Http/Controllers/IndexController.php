@@ -4,23 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Schedule;
+use App\Models\Schedule\BusSchedule;
 use Rakit\Validation\Validator;
 
 class IndexController extends Controller
 {
     public $html;
-    public $navStatus;
-
-    public function __construct()
-    {
-        $this->navStatus = ['active', '', '', '', ''];
-    }
 
     public function index()
     {
         $data = [];
-        $view = view('welcome', ['items' => $data, 'navStatus' => $this->navStatus])->render();
+        $view = view('welcome', ['items' => $data])->render();
 
         return (new Response($view));
     }
@@ -34,16 +28,16 @@ class IndexController extends Controller
                 'date2' => 'required'
             ])) {
 
-        $schedule = Schedule::where([
+        $schedule = BusSchedule::where([
           ['date', '>=', $data['date1']],
           ['date', '<=', $data['date2']]
         ])->get();
 
-        $view = view('search', ['items' => $schedule, 'navStatus' => $this->navStatus])->render();
+        $view = view('search', ['items' => $schedule])->render();
         return (new Response($view));
 
         } else {
-            $view = view('result', ['html' => $this->html, 'navStatus' => $this->navStatus])->render();
+            $view = view('result', ['html' => $this->html])->render();
             return (new Response($view));
         }
     }

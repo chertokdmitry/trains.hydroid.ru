@@ -9,12 +9,12 @@
             <form action="/newroute" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="couriers">Курьеры</label>
-                    <select id="couriers" name="couriers" class="form-control">
-                        @foreach ($couriers as $courier)
-                                <option value="{{ $courier['id'] }}">
-                                    {{ $courier['last'] }}
-                                    {{ $courier['first'] }}</option>
+                    <label for="transport_id">Транспорт</label>
+                    <select id="transport_id" name="transport_id" class="form-control">
+                        @foreach ($transports as $transport)
+                                <option value="{{ $transport['id'] }}">
+                                    {{ $transport['model'] }}
+                                    {{ $transport['register'] }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -23,8 +23,8 @@
                     <input type="text" id="defaultRegion" class="form-control" placeholder="Москва" disabled>
                 </div>
                 <div class="form-group">
-                    <label for="regions">Пункт назначения</label>
-                    <select id="regions" name="regions" class="form-control">
+                    <label for="region_id">Пункт назначения</label>
+                    <select id="region_id" name="region_id" class="form-control">
                         @foreach ($regions as $region)
                             @if ($region['id'] != 0)
                             <option value="{{ $region['id'] }}">{{ $region['name'] }}</option>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="time">Время: </label>
-                    <input id="time" type="time" name="time" class="form-control">
+                    <input id="time" type="time" name="time" placeholder=" time" class="form-control">
                 </div>
                 <input type="hidden"
                        name="hidden_id"

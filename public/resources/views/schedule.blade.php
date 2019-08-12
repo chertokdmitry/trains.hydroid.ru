@@ -11,7 +11,7 @@
                 <tr>
                     <th>id</th>
                     <th>Дата</th>
-                    <th>Курьер</th>
+                    <th>Транспорт</th>
                     <th>Направление</th>
                     <th>В пути(ч)</th>
                 </tr>
@@ -24,7 +24,7 @@
                             {{ $item->date }}
                         </td>
                         <td>
-                            {{ $item->courier->last }} {{ $item->courier->first }}
+                            {{ $item->transport->model }} {{ $item->transport->register }}
                         </td>
                         <td>
                             {{ $item->region->name }}
